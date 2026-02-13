@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will You Be My Valentine? 💕</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&amp;family=Raleway:wght@300;500;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body { 
+      font-family: 'Fredoka', sans-serif;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      min-height: 100%;
+    }
+    
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(10deg); }
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(255, 105, 180, 0.8)); }
+      50% { transform: scale(1.15); filter: drop-shadow(0 0 30px rgba(255, 105, 180, 1)); }
+    }
+    
+    @keyframes bounce-scale {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    @keyframes shake-intense {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      10% { transform: translateX(-15px) rotate(-10deg); }
+      20% { transform: translateX(15px) rotate(10deg); }
+      30% { transform: translateX(-15px) rotate(-10deg); }
+      40% { transform: translateX(15px) rotate(10deg); }
+      50% { transform: translateX(0) rotate(0deg); }
+      60% { transform: translateY(-10px); }
+      100% { transform: translateX(0) rotate(0deg); }
+    }
+    
+    @keyframes slide-up {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    @keyframes confetti-explode {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) rotate(720deg); opacity: 0; }
+    }
+    
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.3); }
+      50% { transform: scale(1); }
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    
+    .pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+    .bounce-scale { animation: bounce-scale 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
+    .shake-intense { animation: shake-intense 0.8s ease-in-out; }
+    .slide-up { animation: slide-up 0.8s ease-out forwards; }
+    .heartbeat { animation: heartbeat 1.2s ease-in-out infinite; }
+    .floating-emoji { animation: float 3s ease-in-out infinite; }
+    .twinkle { animation: twinkle 1.5s ease-in-out infinite; }
+    
+    .confetti-piece {
+      position: fixed;
+      pointer-events: none;
+      font-size: 30px;
+    }
+    
+    .card-glass {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    }
+    
+    .btn-gradient {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-gradient:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+    
+    .btn-gradient:hover {
+      transform: scale(1.08) translateY(-3px);
+      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-gradient:hover:before { left: 100%; }
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+    
+    .btn-secondary:hover {
+      transform: scale(1.08) translateY(-3px);
+      box-shadow: 0 15px 35px rgba(245, 87, 108, 0.4);
+    }
+    
+    .btn-danger {
+      background: rgba(200, 200, 200, 0.5);
+      color: #666;
+    }
+    
+    .btn-danger:hover {
+      background: rgba(180, 180, 180, 0.5);
+    }
+    
+    .title-fancy {
+      font-family: 'Raleway', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -1px;
+    }
+    
+    .subtitle {
+      font-family: 'Raleway', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 300;
+      background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .message-box {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(245, 87, 108, 0.1));
+      border-left: 4px solid #667eea;
+      border-radius: 15px;
+      padding: 1.5rem;
+      backdrop-filter: blur(10px);
+    }
+    
+    .success-emoji {
+      font-size: 4rem;
+      animation: bounce-scale 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .love-message {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      text-align: left;
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full overflow-auto">
+  <div id="app" class="h-full w-full flex items-center justify-center p-4 relative"><!-- Animated Stars Background -->
+   <div id="stars-container" class="fixed inset-0 pointer-events-none"></div><!-- Main Container -->
+   <div id="main-container" class="w-full max-w-2xl relative z-10"><!-- Initial Question Screen -->
+    <div id="initial-screen" class="slide-up"><!-- Floating Hearts Around Card -->
+     <div class="absolute -top-20 -left-10 text-5xl floating-emoji" style="animation-delay: 0s;">
+      💕
+     </div>
+     <div class="absolute -top-10 -right-20 text-6xl floating-emoji" style="animation-delay: 0.3s;">
+      💖
+     </div>
+     <div class="absolute -bottom-16 -left-16 text-5xl floating-emoji" style="animation-delay: 0.6s;">
+      💗
+     </div>
+     <div class="absolute -bottom-20 -right-10 text-6xl floating-emoji" style="animation-delay: 0.9s;">
+      💝
+     </div><!-- Main Card -->
+     <div class="card-glass rounded-3xl p-8 md:p-16 text-center mx-auto"><!-- Top Emoji with Glow -->
+      <div class="text-7xl md:text-8xl mb-8 pulse-glow inline-block">
+       💭
+      </div><!-- Title -->
+      <h1 id="initial-name" class="title-fancy mb-2">Hey Teresaaa 👋</h1><!-- Subtitle Question -->
+      <p id="initial-question" class="subtitle mb-12 text-xl md:text-2xl leading-relaxed">Want to hear something?</p><!-- Buttons Container -->
+      <div class="space-y-4 md:space-y-5"><button id="initial-yes-btn" onclick="handleInitialYes()" class="btn-gradient w-full py-4 px-6 md:py-5 text-white font-bold text-lg md:text-xl rounded-full shadow-lg hover:shadow-2xl transform transition-all duration-300"> 💬 Yes! </button> <button id="initial-no-btn" onclick="handleInitialNo()" class="btn-secondary w-full py-4 px-6 md:py-5 text-white font-bold text-lg md:text-xl rounded-full shadow-lg hover:shadow-2xl transform transition-all duration-300"> 😒 No... </button>
+      </div><!-- Attempt Counter -->
+      <p id="initial-attempt-counter" class="hidden mt-6 text-gray-500 text-sm md:text-base font-medium">😊 Please? I have something important!</p>
+     </div>
+    </div><!-- Valentine Question Screen -->
+    <div id="question-screen" class="hidden slide-up"><!-- Floating Hearts Around Card -->
+     <div class="absolute -top-20 -left-10 text-5xl floating-emoji" style="animation-delay: 0s;">
+      💕
+     </div>
+     <div class="absolute -top-10 -right-20 text-6xl floating-emoji" style="animation-delay: 0.3s;">
+      💖
+     </div>
+     <div class="absolute -bottom-16 -left-16 text-5xl floating-emoji" style="animation-delay: 0.6s;">
+      💗
+     </div>
+     <div class="absolute -bottom-20 -right-10 text-6xl floating-emoji" style="animation-delay: 0.9s;">
+      💝
+     </div><!-- Main Card -->
+     <div class="card-glass rounded-3xl p-8 md:p-16 text-center mx-auto"><!-- Top Emoji with Glow -->
+      <div class="text-7xl md:text-8xl mb-8 pulse-glow inline-block">
+       💘
+      </div><!-- Title -->
+      <h1 id="valentine-name" class="title-fancy mb-2">Hey Teresaaa 👋</h1><!-- Subtitle Question -->
+      <p class="subtitle mb-12 text-xl md:text-2xl leading-relaxed">Will you be my Valentine?</p><!-- Message Box (Hidden Initially) -->
+      <div id="sweet-message" class="hidden message-box mb-8">
+       <p id="message-text" class="text-gray-700 leading-relaxed text-sm md:text-base"></p>
+      </div><!-- Buttons Container -->
+      <div class="space-y-4 md:space-y-5"><button id="yes-btn" onclick="handleYes()" class="btn-gradient w-full py-4 px-6 md:py-5 text-white font-bold text-lg md:text-xl rounded-full shadow-lg hover:shadow-2xl transform transition-all duration-300"> 💖 Yes, I'd love to! </button> <button id="definitely-btn" onclick="handleYes()" class="btn-secondary w-full py-4 px-6 md:py-5 text-white font-bold text-lg md:text-xl rounded-full shadow-lg hover:shadow-2xl transform transition-all duration-300"> 😍 Definitely Yes! </button> <button id="no-btn" onclick="handleNo()" class="btn-danger w-full py-4 px-6 md:py-5 font-semibold text-base md:text-lg rounded-full shadow-md transform transition-all duration-300 hover:scale-105"> No... </button>
+      </div><!-- Attempt Counter -->
+      <p id="attempt-counter" class="hidden mt-6 text-gray-500 text-sm md:text-base font-medium">😊 Don't give up on me!</p>
+     </div>
+    </div><!-- Success Screen -->
+    <div id="success-screen" class="hidden"><!-- Celebration Elements -->
+     <div class="card-glass rounded-3xl p-8 md:p-16 text-center mx-auto"><!-- Success Emojis Cascade -->
+      <div class="flex justify-center gap-2 md:gap-4 mb-8 flex-wrap"><span class="success-emoji" style="animation-delay: 0s;">🎉</span> <span class="success-emoji" style="animation-delay: 0.1s;">🎊</span> <span class="success-emoji" style="animation-delay: 0.2s;">🥳</span> <span class="success-emoji" style="animation-delay: 0.1s;">🎉</span> <span class="success-emoji" style="animation-delay: 0s;">🎊</span>
+      </div><!-- Main Success Message -->
+      <h1 class="title-fancy mb-6 text-3xl md:text-5xl" style="animation: bounce-scale 0.8s ease-out 0.3s forwards;">🌟 You Said YES! 🌟</h1><!-- Heartbeat Emoji -->
+      <div class="text-6xl md:text-7xl mb-8 heartbeat">
+       💕
+      </div><!-- Love Message -->
+      <div class="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-6 md:p-10 mb-8 border-2 border-purple-200 space-y-5" style="animation: slide-up 0.8s ease-out 0.5s forwards; opacity: 0;">
+       <p class="text-lg md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">I'm the HAPPIEST person ever! 🌍✨</p>
+       <div class="border-t-2 border-purple-200 pt-5">
+        <p id="love-message-text" class="text-gray-700 text-base md:text-lg leading-relaxed love-message">My Dearest Teresaaa, I fell for you in a way I never expected, and now every day feels brighter just because you're in it. Loving you comes so naturally. It's in your smile, your laugh, and the comfort I feel whenever I'm with you. You are my favorite part of every moment, and the best thing that ever happened to me. Forever yours, Liyo</p>
+       </div>
+      </div><!-- Floating Hearts Finale -->
+      <div class="flex justify-center gap-4 text-5xl mb-8" style="animation: slide-up 0.8s ease-out 0.7s forwards; opacity: 0;"><span class="floating-emoji" style="animation-delay: 0s;">💖</span> <span class="floating-emoji" style="animation-delay: 0.2s;">💕</span> <span class="floating-emoji" style="animation-delay: 0.4s;">💗</span> <span class="floating-emoji" style="animation-delay: 0.2s;">💕</span> <span class="floating-emoji" style="animation-delay: 0s;">💖</span>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      her_name: "Teresaaa",
+      initial_question: "Want to hear something?",
+      valentine_message: "My Dearest Teresaaa,\n\nI fell for you in a way I never expected, and now every day feels brighter just because you're in it.\n\nLoving you comes so naturally. It's in your smile, your laugh, and the comfort I feel whenever I'm with you.\n\nYou are my favorite part of every moment, and the best thing that ever happened to me.\n\nForever yours, Liyo"
+    };
+
+    let noAttempts = 0;
+    let initialNoAttempts = 0;
+    let successAnimationPlayed = false;
+    let currentStep = 'initial';
+    
+    const sweetMessages = [
+      "Hold on! 🥺 Please don't say no so fast... From the first moment I saw you, I couldn't stop thinking about you. Your smile, your laugh, everything about you makes my heart race! 💓",
+      "Wait, seriously? 😭 You're the most incredible person I know. Every single moment with you feels like magic. Please give me a chance to make you happy? 🌟",
+      "Come on! 🍒 I promise you won't regret this. You mean everything to me. I've never felt this way about anyone before! 💫",
+      "Please? 🥹 My heart beats for you. I think about you constantly... Every day without you feels incomplete. Say yes! 💭",
+      "I can't give up! 💪 You're my sunshine, my reason to smile, my everything! Please be my Valentine! ☀️",
+      "One more chance? 🙏 I'll spend every day trying to make you the happiest person in the world. You deserve all the love! 💝",
+      "Pretty pretty please? 😢 Life is so much better with you in it. I want to build something beautiful with you. Forever with you! 💑",
+      "Don't break my heart like this! 💔 I've never believed in love until I met you. You're my soulmate! ✨",
+      "Last attempt, I promise! 😄 Actually, I'm never giving up! Because you're worth it. You're my person! 🎀",
+      "Okay, you drive a hard bargain! 😩 But I'm persistent because I KNOW we're meant to be. Say YES! 💕"
+    ];
+
+    const noButtonTexts = [
+      "No...",
+      "Are you sure? 🥺",
+      "Really sure? 😢",
+      "Hmm... again? 💭",
+      "Pretty please? 🙏",
+      "Once more? 😭",
+      "Reconsidering? 💕",
+      "Maybe? 🥹",
+      "For me? 💗",
+      "SAY YES! 💖"
+    ];
+
+    const initialNoMessages = [
+      "Aww come on! 🥺 It's something really important and special!",
+      "Pleeease! 😢 Just listen to what I have to say!",
+      "Don't leave me hanging! 💔 Hear me out?",
+      "I promise it's worth it! 💫 Say yes?",
+      "For me? 🙏 Just give me a chance!"
+    ];
+
+    function createStars() {
+      const container = document.getElementById('stars-container');
+      for (let i = 0; i < 30; i++) {
+        const star = document.createElement('div');
+        star.className = 'star text-2xl fixed pointer-events-none twinkle';
+        star.textContent = ['⭐', '✨', '💫'][Math.floor(Math.random() * 3)];
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        star.style.opacity = Math.random() * 0.5 + 0.3;
+        container.appendChild(star);
+      }
+    }
+
+    function handleInitialNo() {
+      initialNoAttempts++;
+      const initialNoBtn = document.getElementById('initial-no-btn');
+      const initialYesBtn = document.getElementById('initial-yes-btn');
+      const counter = document.getElementById('initial-attempt-counter');
+      
+      initialNoBtn.classList.add('shake-intense');
+      setTimeout(() => initialNoBtn.classList.remove('shake-intense'), 800);
+      
+      const messageIndex = Math.min(initialNoAttempts - 1, initialNoMessages.length - 1);
+      counter.classList.remove('hidden');
+      counter.textContent = initialNoMessages[messageIndex];
+      
+      const scale = Math.max(0.6, 1 - (initialNoAttempts * 0.08));
+      initialNoBtn.style.transform = `scale(${scale})`;
+      initialNoBtn.style.opacity = Math.max(0.4, 1 - (initialNoAttempts * 0.12));
+      
+      const yesScale = Math.min(1.3, 1 + (initialNoAttempts * 0.06));
+      initialYesBtn.style.transform = `scale(${yesScale})`;
+      
+      if (initialNoAttempts >= 4) {
+        const randomX = (Math.random() - 0.5) * 80;
+        const randomY = (Math.random() - 0.5) * 40;
+        initialNoBtn.style.transform = `scale(${scale}) translate(${randomX}px, ${randomY}px)`;
+      }
+    }
+
+    function handleInitialYes() {
+      currentStep = 'valentine';
+      document.getElementById('initial-screen').style.display = 'none';
+      document.getElementById('question-screen').classList.remove('hidden');
+      createCelebration();
+    }
+
+    function handleNo() {
+      noAttempts++;
+      const noBtn = document.getElementById('no-btn');
+      const yesBtn = document.getElementById('yes-btn');
+      const definitelyBtn = document.getElementById('definitely-btn');
+      const messageBox = document.getElementById('sweet-message');
+      const messageText = document.getElementById('message-text');
+      const counter = document.getElementById('attempt-counter');
+      
+      noBtn.classList.add('shake-intense');
+      setTimeout(() => noBtn.classList.remove('shake-intense'), 800);
+      
+      const messageIndex = Math.min(noAttempts - 1, sweetMessages.length - 1);
+      messageText.textContent = sweetMessages[messageIndex];
+      messageBox.classList.remove('hidden');
+      messageBox.classList.add('bounce-scale');
+      
+      const btnTextIndex = Math.min(noAttempts, noButtonTexts.length - 1);
+      noBtn.textContent = noButtonTexts[btnTextIndex];
+      
+      const scale = Math.max(0.6, 1 - (noAttempts * 0.08));
+      const opacity = Math.max(0.4, 1 - (noAttempts * 0.12));
+      
+      noBtn.style.transform = `scale(${scale})`;
+      noBtn.style.opacity = opacity;
+      
+      const yesScale = Math.min(1.3, 1 + (noAttempts * 0.06));
+      yesBtn.style.transform = `scale(${yesScale})`;
+      definitelyBtn.style.transform = `scale(${yesScale})`;
+      
+      if (noAttempts >= 2) {
+        counter.classList.remove('hidden');
+        counter.textContent = `🎯 ${noAttempts} attempts... but I'm not giving up! 💪`;
+      }
+      
+      if (noAttempts >= 4) {
+        const randomX = (Math.random() - 0.5) * 80;
+        const randomY = (Math.random() - 0.5) * 40;
+        noBtn.style.transform = `scale(${scale}) translate(${randomX}px, ${randomY}px)`;
+      }
+    }
+
+    function handleYes() {
+      if (successAnimationPlayed) return;
+      successAnimationPlayed = true;
+      
+      document.getElementById('question-screen').style.display = 'none';
+      document.getElementById('success-screen').classList.remove('hidden');
+      
+      createCelebration();
+      createConfetti();
+      setTimeout(createConfetti, 400);
+      setTimeout(createConfetti, 800);
+      setTimeout(createConfetti, 1200);
+    }
+
+    function createCelebration() {
+      const celebrationEmojis = ['🎉', '🎊', '💕', '✨', '🌟', '💖', '🎈', '🎁', '💝'];
+      
+      for (let i = 0; i < 40; i++) {
+        setTimeout(() => {
+          const emoji = document.createElement('div');
+          emoji.textContent = celebrationEmojis[Math.floor(Math.random() * celebrationEmojis.length)];
+          emoji.className = 'confetti-piece text-4xl';
+          emoji.style.left = Math.random() * 100 + '%';
+          emoji.style.top = '-50px';
+          emoji.style.setProperty('--tx', (Math.random() - 0.5) * 300 + 'px');
+          emoji.style.setProperty('--ty', (Math.random() + 0.5) * 500 + 'px');
+          emoji.style.animation = 'confetti-explode 3s ease-out forwards';
+          document.body.appendChild(emoji);
+          
+          setTimeout(() => emoji.remove(), 3000);
+        }, i * 50);
+      }
+    }
+
+    function createConfetti() {
+      const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#ff6b6b'];
+      
+      for (let i = 0; i < 60; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti-piece';
+        confetti.style.width = (Math.random() * 12 + 8) + 'px';
+        confetti.style.height = confetti.style.width;
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.top = '-10px';
+        confetti.style.setProperty('--tx', (Math.random() - 0.5) * 300 + 'px');
+        confetti.style.setProperty('--ty', (Math.random() + 0.5) * 600 + 'px');
+        confetti.style.animation = 'confetti-explode ' + (Math.random() * 2 + 2.5) + 's ease-in forwards';
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 4000);
+      }
+    }
+
+    function onConfigChange(config) {
+      const initialName = document.getElementById('initial-name');
+      const valentineName = document.getElementById('valentine-name');
+      const initialQuestion = document.getElementById('initial-question');
+      const loveMessageEl = document.getElementById('love-message-text');
+      
+      if (config.her_name && config.her_name.trim()) {
+        initialName.textContent = `Hey ${config.her_name} 👋`;
+        valentineName.textContent = `Hey ${config.her_name} 👋`;
+      } else {
+        initialName.textContent = 'Hey Teresaaa 👋';
+        valentineName.textContent = 'Hey Teresaaa 👋';
+      }
+      
+      if (config.initial_question) {
+        initialQuestion.textContent = config.initial_question;
+      }
+
+      if (config.valentine_message) {
+        loveMessageEl.textContent = config.valentine_message;
+      }
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["her_name", config.her_name || defaultConfig.her_name],
+        ["initial_question", config.initial_question || defaultConfig.initial_question],
+        ["valentine_message", config.valentine_message || defaultConfig.valentine_message]
+      ]);
+    }
+
+    createStars();
+    
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange,
+      mapToCapabilities,
+      mapToEditPanelValues
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cd3ca7a17cdac6d',t:'MTc3MDk4MDEwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
